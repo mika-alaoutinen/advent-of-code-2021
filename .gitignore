@@ -1,0 +1,6 @@
+.config
+.ionide
+.fake
+bin/
+obj/
+Temp.fsx

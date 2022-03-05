@@ -1,0 +1,6 @@
+{
+  "editor.tabSize": 4,
+  "FSharp.fsiExtraParameters": [
+    "--use:Startup.fs"
+  ]
+}
