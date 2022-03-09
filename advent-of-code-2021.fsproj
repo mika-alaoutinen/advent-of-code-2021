@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="modules/InputParser.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="aoc/Day1.fs" />
     <Compile Include="aoc/Day2.fs" />
     <Compile Include="aoc/Day3.fs" />
@@ -16,6 +20,7 @@
     <Compile Include="aoc/Day7.fs" />
     <Compile Include="aoc/Day9.fs" />
     <Compile Include="aoc/Day10.fs" />
+    <Compile Include="aoc/Day11.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

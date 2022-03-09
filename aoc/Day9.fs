@@ -41,12 +41,6 @@ module ArrayBounds =
         else
             None
 
-module Parser =
-    let inline private charToInt c = int c - int '0'
-    let private parseLine line = line |> Seq.map charToInt |> Seq.toList
-
-    let parseInput input = input |> List.map parseLine |> array2D
-
 module Heatmap =
     let private checkDirection directionFn ({ X = x; Y = y; Value = value }) heatmap =
         heatmap
@@ -82,7 +76,7 @@ let solve () =
 
     let lowPoints =
         input
-        |> Parser.parseInput
+        |> InputParser.parse
         |> Heatmap.findLowPoints
 
     let totalRisk = Risk.calculate lowPoints

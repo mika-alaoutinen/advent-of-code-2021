@@ -1,7 +1,5 @@
 module Day4
 
-open System
-
 type Cell = { Marked: bool; Value: int }
 type Board = Cell [,]
 type BingoCard = { Id: int; Board: Board }
