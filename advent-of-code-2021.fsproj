@@ -21,6 +21,7 @@
     <Compile Include="aoc/Day9.fs" />
     <Compile Include="aoc/Day10.fs" />
     <Compile Include="aoc/Day11.fs" />
+    <Compile Include="aoc/Day13.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
