@@ -1,7 +1,5 @@
 module Day14
 
-open System
-
 module ListUtil =
     let flattenTuples tuples =
         tuples
@@ -112,6 +110,53 @@ module Simulation =
         seq { 1..iterations }
         |> Seq.fold (fun counts _ -> runIteration counts polymerPairs) polymers
 
+module ElementCounts =
+    type private CharCount = (char * int)
+    type Result = { Min: CharCount; Max: CharCount }
+
+    let private countPolymerChars polymerCounts polymer : (CharCount * CharCount) =
+        let count = Map.find polymer polymerCounts
+        let firstCharCount = (PolymerString.fst polymer, count)
+        let secondCharCount = (PolymerString.snd polymer, count)
+        (firstCharCount, secondCharCount)
+
+    let private reduceDuplicateChars (charCounts: list<CharCount>) =
+        charCounts
+        |> List.groupBy (fun (char, _) -> char)
+        |> List.map (fun (char, charCounts) -> (char, List.sumBy (fun (_, count) -> count) charCounts))
+
+    // +1 to N and B counts, because they are first and last letters in initial polymer
+    let private plusOne charCounts =
+        charCounts
+        |> List.map (fun (char, count) ->
+            if char = 'N' || char = 'B' then
+                (char, count + 1)
+            else
+                (char, count))
+
+    let private charCounts (polymerCounts: PolymerCount) =
+        polymerCounts
+        |> Map.keys
+        |> Seq.map (countPolymerChars polymerCounts)
+        |> ListUtil.flattenTuples
+        |> reduceDuplicateChars
+        |> plusOne
+
+    let private leastCommon polymerCounts =
+        polymerCounts
+        |> charCounts
+        |> List.minBy (fun (_, v) -> v)
+
+    let private mostCommon polymerCounts =
+        polymerCounts
+        |> charCounts
+        |> List.maxBy (fun (_, v) -> v)
+
+    let findLeastAndMostCommon (polymers: PolymerCount) =
+        { Min = leastCommon polymers
+          Max = mostCommon polymers }
+
+// Not even close to being correct
 let solve () =
     let polymerTemplate = "NNCB"
 
@@ -133,7 +178,8 @@ let solve () =
           ("CC", 'N')
           ("CN", 'C') ]
 
-    let iterations = 4
+    let iterations = 10
 
     let input = Input.parse polymerTemplate rules
-    Simulation.run input.Polymers input.Pairs iterations
+    let polymerCounts = Simulation.run input.Polymers input.Pairs iterations
+    ElementCounts.findLeastAndMostCommon polymerCounts
